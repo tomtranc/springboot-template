@@ -5,7 +5,7 @@ Template for springboot web applications
 ```
 com
  +- example
-     +- myapplication
+     +- app
          +- Application.java
          |
          +- customer

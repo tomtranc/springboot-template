@@ -4,9 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.tomt.template</groupId>
-    <artifactId>springboot</artifactId>
+    <artifactId>springboot-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -35,6 +34,16 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${springframework.boot.version}</version>
         </dependency>
+        <!-- START: SOAP dependencies -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+        </dependency>
+        <!-- END: SOAP dependencies -->
     </dependencies>
 
     <build>
@@ -43,6 +52,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${springframework.boot.version}</version>
+                <!-- repackage goal to bundle dependencies and enable java -jar execution -->
                 <executions>
                     <execution>
                         <goals>
@@ -50,6 +60,25 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- JAXB codegen: XSD -> java obj models -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                    <clearOutputDir>false</clearOutputDir>
+                </configuration>
             </plugin>
         </plugins>
     </build>
