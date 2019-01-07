@@ -148,39 +148,6 @@
         </configuration>
       </plugin>
       <!-- END: Maven package build info -->
-      <!-- START: docker maven plugin -->
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>${maven-fabric-docker-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>docker-image-build</id>
-            <goals>
-              <goal>build</goal>
-              <goal>push</goal>
-            </goals>
-            <configuration>
-              <verbose>true</verbose>
-              <retries>3</retries>
-              <images>
-                <image>
-                  <name>${image.namespace}:${project.version}</name>
-                  <build>
-                    <buildOptions>
-                      <labels>{"build.project":"${project.name}", "project.version":"${project.version}",
-                        "build.scm-branch":"${scmBranch}", "build.number":"${buildNumber}"}
-                      </labels>
-                    </buildOptions>
-                    <dockerFileDir>${project.basedir}</dockerFileDir>
-                  </build>
-                </image>
-              </images>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- END: docker maven plugin -->
     </plugins>
   </build>
   <profiles>
@@ -191,6 +158,33 @@
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
+            <version>${maven-fabric-docker-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>docker-image-build</id>
+                <goals>
+                  <goal>build</goal>
+                  <goal>push</goal>
+                </goals>
+                <configuration>
+                  <verbose>true</verbose>
+                  <retries>3</retries>
+                  <images>
+                    <image>
+                      <name>${image.namespace}:${project.version}</name>
+                      <build>
+                        <buildOptions>
+                          <labels>{"build.project":"${project.name}", "project.version":"${project.version}",
+                            "build.scm-branch":"${scmBranch}", "build.number":"${buildNumber}"}
+                          </labels>
+                        </buildOptions>
+                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                      </build>
+                    </image>
+                  </images>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
