@@ -33,7 +33,7 @@ GET http://localhost:8080/ws/countries.wsdl
 ```
 Execution request:
 ```
-curl --header "content-type: text/xml" -d @/Users/tomtran/personalRepos/springboot-template/src/test/test/resources/soap/request.xml http://localhost:8080/ws | xmllint --format -
+curl --header "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/request.xml http://localhost:8080/ws | xmllint --format -
 ```
 Execution response:
 ```xml

@@ -1,5 +1,6 @@
 package app.soap;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
+
   @Bean
   public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -24,11 +26,11 @@ public class WebServiceConfig extends WsConfigurerAdapter {
   }
 
   @Bean(name = "countries")
-  public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+  public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema, @Value("${wsdl.target.ns}") String wsdlTargetNs) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("CountriesPort");
-    wsdl11Definition.setLocationUri("/ws");
-    wsdl11Definition.setTargetNamespace("http://namespace.my/jaxb/output/");
+    wsdl11Definition.setLocationUri("/ws/");
+    wsdl11Definition.setTargetNamespace(wsdlTargetNs);
     wsdl11Definition.setSchema(countriesSchema);
     return wsdl11Definition;
   }
