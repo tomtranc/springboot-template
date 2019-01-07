@@ -23,17 +23,17 @@ com
 #### REST
 Execution:
 ```
-GET http://localhost:8080/endpoint1
+GET http://localhost:9090/endpoint1
 ```
 
 #### SOAP
 View WSDL endpoint:
 ```
-GET http://localhost:8080/ws/countries.wsdl
+GET http://localhost:9090/ws/countries.wsdl
 ```
 Execution request:
 ```
-curl --header "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/request.xml http://localhost:8080/ws | xmllint --format -
+curl --header "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/request.xml http://localhost:9090/ws | xmllint --format -
 ```
 Execution response:
 ```xml
