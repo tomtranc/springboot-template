@@ -19,7 +19,7 @@
     <springframework.boot.version>2.0.0.RELEASE</springframework.boot.version>
     <maven-fabric-docker-plugin.version>0.26.1</maven-fabric-docker-plugin.version>
     <image.namespace>springboot-template</image.namespace>
-    <archetype.archive.name>${artifactId}-${project.version}</archetype.archive.name>
+    <archetype.archive.name>${project.artifactId}-${project.version}</archetype.archive.name>
   </properties>
 
   <dependencyManagement>
