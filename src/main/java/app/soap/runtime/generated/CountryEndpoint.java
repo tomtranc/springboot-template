@@ -1,7 +1,7 @@
-package app.soap;
+package app.soap.runtime.generated;
 
-import my.namespace.jaxb.output.GetCountryRequest;
-import my.namespace.jaxb.output.GetCountryResponse;
+import my.namespace.jaxb.countries.GetCountryRequest;
+import my.namespace.jaxb.countries.GetCountryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -10,7 +10,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class CountryEndpoint {
-  private static final String NAMESPACE_URI = "http://namespace.my/jaxb/output/";
+
+  private static final String NAMESPACE_URI = "http://namespace.my/jaxb/countries/";
 
   private CountryRepository countryRepository;
 

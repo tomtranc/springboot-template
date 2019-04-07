@@ -2,7 +2,6 @@ package app.filter.custom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,7 @@ import java.io.IOException;
 
 public class SampleFilter implements Filter {
 
-  Logger LOG = LoggerFactory.getLogger(this.getClass());
+  private static final Logger LOG = LoggerFactory.getLogger(SampleFilter.class);
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://namespace.my/jaxb/scorecard/">
+
+  <xs:element name="PMMLInput">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="employmentStatus" type="xs:string"/>
+        <xs:element minOccurs="0" name="maritalStatus" type="xs:string"/>
+        <xs:element minOccurs="0" name="monthsWithCurrentBank" type="xs:double"/>
+        <xs:element minOccurs="0" name="monthsWithCurrentEmployer" type="xs:double"/>
+        <xs:element minOccurs="0" name="residentialStatus" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PMMLOutput">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="finalScore" type="xs:double"/>
+        <xs:element name="reasonCode1" type="xs:string"/>
+        <xs:element name="reasonCode2" type="xs:string"/>
+        <xs:element name="reasonCode3" type="xs:string"/>
+        <xs:element name="reasonCode4" type="xs:string"/>
+        <xs:element name="reasonCode5" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

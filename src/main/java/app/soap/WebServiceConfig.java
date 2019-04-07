@@ -26,17 +26,32 @@ public class WebServiceConfig extends WsConfigurerAdapter {
   }
 
   @Bean(name = "countries")
-  public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema, @Value("${wsdl.target.ns}") String wsdlTargetNs) {
+  public DefaultWsdl11Definition defaultWsdl1Definition(XsdSchema countriesSchema, @Value("${wsdl.target.ns.countries}") String wsdlTargetNs) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("CountriesPort");
-    wsdl11Definition.setLocationUri("/ws/");
+    wsdl11Definition.setLocationUri("/ws/countries");
     wsdl11Definition.setTargetNamespace(wsdlTargetNs);
     wsdl11Definition.setSchema(countriesSchema);
     return wsdl11Definition;
   }
 
+  @Bean(name = "scorecard")
+  public DefaultWsdl11Definition defaultWsdl2Definition(XsdSchema scorecardSchema, @Value("${wsdl.target.ns.scorecard}") String wsdlTargetNs) {
+    DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+    wsdl11Definition.setPortTypeName("ScorecardPort");
+    wsdl11Definition.setLocationUri("/ws/scorecard");
+    wsdl11Definition.setTargetNamespace(wsdlTargetNs);
+    wsdl11Definition.setSchema(scorecardSchema);
+    return wsdl11Definition;
+  }
+
   @Bean
   public XsdSchema countriesSchema() {
-    return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
+    return new SimpleXsdSchema(new ClassPathResource("wsdl/countries.xsd"));
+  }
+
+  @Bean
+  public XsdSchema scorecardSchema() {
+    return new SimpleXsdSchema(new ClassPathResource("wsdl/DemoScorecard.xsd"));
   }
 }

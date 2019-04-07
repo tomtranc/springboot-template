@@ -1,5 +1,5 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns:gs="http://namespace.my/jaxb/output/">
+                  xmlns:gs="http://namespace.my/jaxb/countries/">
     <soapenv:Header/>
     <soapenv:Body>
         <gs:getCountryRequest>

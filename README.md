@@ -30,12 +30,14 @@ GET http://localhost:9090/endpoint1
 View WSDL endpoint:
 ```
 GET http://localhost:9090/ws/countries.wsdl
+GET http://localhost:9090/ws/scorecard.wsdl
 ```
 Execution request:
 ```
-curl --header "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/request.xml http://localhost:9090/ws | xmllint --format -
+curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/countriesRequest.xml http://localhost:9090/ws | xmllint --format -
+curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/scorecardRequest.xml http://localhost:9090/ws | xmllint --format -
 ```
-Execution response:
+Execution response for **countriesRequest**:
 ```xml
 <?xml version="1.0"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
@@ -49,6 +51,22 @@ Execution response:
         <ns2:currency>EUR</ns2:currency>
       </ns2:country>
     </ns2:getCountryResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+```
+Execution response for **scorecard**:
+```xml
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <ns2:PMMLOutput xmlns:ns2="http://namespace.my/jaxb/scorecard/">
+      <ns2:finalScore>69.0</ns2:finalScore>
+      <ns2:reasonCode1>good</ns2:reasonCode1>
+      <ns2:reasonCode2>good</ns2:reasonCode2>
+      <ns2:reasonCode3>good</ns2:reasonCode3>
+      <ns2:reasonCode4>good</ns2:reasonCode4>
+    </ns2:PMMLOutput>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 ```

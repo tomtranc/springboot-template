@@ -1,11 +1,11 @@
-package app.soap;
+package app.soap.runtime.generated;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
-import my.namespace.jaxb.output.Country;
-import my.namespace.jaxb.output.Currency;
+import my.namespace.jaxb.countries.Country;
+import my.namespace.jaxb.countries.Currency;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

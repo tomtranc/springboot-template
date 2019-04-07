@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://namespace.my/jaxb/scorecard/">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <gs:PMMLInput>
+      <gs:employmentStatus>true</gs:employmentStatus>
+      <gs:maritalStatus>2</gs:maritalStatus>
+      <gs:monthsWithCurrentBank>4</gs:monthsWithCurrentBank>
+      <gs:monthsWithCurrentEmployer>8</gs:monthsWithCurrentEmployer>
+      <gs:residentialStatus>7</gs:residentialStatus>
+    </gs:PMMLInput>
+  </soapenv:Body>
+</soapenv:Envelope>
