@@ -16,7 +16,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <failOnMissingWebXml>false</failOnMissingWebXml>
-    <springframework.boot.version>2.0.0.RELEASE</springframework.boot.version>
+    <springframework.boot.version>2.1.6.RELEASE</springframework.boot.version>
     <maven-fabric-docker-plugin.version>0.26.1</maven-fabric-docker-plugin.version>
     <image.namespace>springboot-template</image.namespace>
     <archetype.archive.name>${project.artifactId}-${project.version}</archetype.archive.name>
@@ -50,6 +50,19 @@
       <artifactId>spring-ws-core</artifactId>
     </dependency>
     <!-- END: SOAP dependencies -->
+    <!-- START: MySQL Connector -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <!-- END: MySQL Connector -->
+    <!-- START: Spring Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <version>${springframework.boot.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -67,24 +80,24 @@
         </executions>
       </plugin>
       <!-- START: JAXB codegen: XSD -> java obj models -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jaxb2-maven-plugin</artifactId>
-        <version>1.6</version>
-        <executions>
-          <execution>
-            <id>xjc</id>
-            <goals>
-              <goal>xjc</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
-          <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-          <clearOutputDir>false</clearOutputDir>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.codehaus.mojo</groupId>-->
+<!--        <artifactId>jaxb2-maven-plugin</artifactId>-->
+<!--        <version>1.6</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>xjc</id>-->
+<!--            <goals>-->
+<!--              <goal>xjc</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--        <configuration>-->
+<!--          <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>-->
+<!--          <outputDirectory>${project.basedir}/src/main/java</outputDirectory>-->
+<!--          <clearOutputDir>false</clearOutputDir>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
       <!-- END: JAXB codegen: XSD -> java obj models -->
       <!-- START: Maven package build info -->
       <plugin>
