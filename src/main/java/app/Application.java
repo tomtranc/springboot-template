@@ -23,7 +23,7 @@ public class Application {
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
 
-      LOG.debug("Let's inspect the beans provided by Spring Boot:");
+      LOG.debug("Beans provided by Spring Boot:");
 
       String[] beanNames = ctx.getBeanDefinitionNames();
       Arrays.sort(beanNames);
