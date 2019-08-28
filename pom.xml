@@ -40,6 +40,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <version>${springframework.boot.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <version>${springframework.boot.version}</version>
+    </dependency>
     <!-- START: SOAP dependencies -->
     <dependency>
       <groupId>wsdl4j</groupId>
@@ -80,7 +86,7 @@
           </execution>
         </executions>
         <configuration>
-          <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+          <schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
           <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
           <clearOutputDir>false</clearOutputDir>
         </configuration>
