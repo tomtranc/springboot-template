@@ -9,14 +9,23 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadExecutorService<V> {
 
-  private int threadPoolSize = 2;
+  private static ThreadExecutorService executorService;
 
+  private int threadPoolSize = 2;
   private ThreadPoolExecutor executor;
   private List<ThreadFuture> currTasks;
 
-  public ThreadExecutorService() {
-    this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threadPoolSize);
-    this.currTasks =  Collections.synchronizedList(new ArrayList<ThreadFuture>());
+  public static ThreadExecutorService getInstance() {
+    if (executorService == null) {
+      synchronized (ThreadExecutorService.class) {
+        executorService = new ThreadExecutorService();
+        executorService.setExecutor((ThreadPoolExecutor)
+                Executors.newFixedThreadPool(executorService.getThreadPoolSize()));
+        executorService.setCurrTasks(Collections.synchronizedList(new ArrayList<>()));
+      }
+    }
+
+    return executorService;
   }
 
   public ThreadFuture submit(TaskBase<V> task) {
@@ -37,7 +46,15 @@ public class ThreadExecutorService<V> {
     return executor;
   }
 
+  private void setExecutor(ThreadPoolExecutor executor) {
+    this.executor = executor;
+  }
+
   public List<ThreadFuture> getCurrTasks() {
     return currTasks;
+  }
+
+  private void setCurrTasks(List<ThreadFuture> currTasks) {
+    this.currTasks = currTasks;
   }
 }

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ThreadHandlerTest {
 
-  private ThreadExecutorService executorService1 = new ThreadExecutorService();
+  private ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
 
 //  @Test
   public void threadPoolExecutorShortTest() throws InterruptedException, ExecutionException {
@@ -60,6 +60,9 @@ public class ThreadHandlerTest {
     ThreadFuture<ResponseObj> future2 = executorService1.submit(new TaskSleep(task2));
     ThreadFuture<ResponseObj> future3 = executorService1.submit(new TaskSleep(task3));
 
+    print("Executor1 pool: %s queue: %s", executorService1.getExecutor().getPoolSize(),
+            executorService1.getExecutor().getQueue().size());
+
     assertEquals(2, executorService1.getExecutor().getPoolSize());
     assertEquals(1, executorService1.getExecutor().getQueue().size());
 
@@ -68,5 +71,4 @@ public class ThreadHandlerTest {
     print("Extracted value: %s", future2.getSubject().getResult());
     print("Extracted value: %s", future3.getSubject().getResult());
   }
-
 }
