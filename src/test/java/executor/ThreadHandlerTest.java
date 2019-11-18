@@ -4,6 +4,8 @@ import app.executor.ResponseObj;
 import app.executor.TaskSleep;
 import app.executor.ThreadExecutorService;
 import app.executor.ThreadFuture;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.util.concurrent.*;
@@ -14,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class ThreadHandlerTest {
 
   private ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
+  private ObjectMapper mapper = new ObjectMapper();
 
 //  @Test
   public void threadPoolExecutorShortTest() throws InterruptedException, ExecutionException {
@@ -51,7 +54,7 @@ public class ThreadHandlerTest {
   }
 
   @Test
-  public void threadExecutorServiceTest() throws InterruptedException, ExecutionException {
+  public void threadExecutorServiceTest() throws InterruptedException, ExecutionException, JsonProcessingException {
     ResponseObj task1 = new ResponseObj("task1");
     ResponseObj task2 = new ResponseObj("task2");
     ResponseObj task3 = new ResponseObj("task3");
@@ -66,8 +69,10 @@ public class ThreadHandlerTest {
     assertEquals(2, executorService1.getExecutor().getPoolSize());
     assertEquals(1, executorService1.getExecutor().getQueue().size());
 
+    print("currTasks: %s", mapper.writeValueAsString(executorService1.getCurrTasks()));
+
     // calling Future#get() is a blocking call, it will block until thread finishes execution
-    print("Extracted value: %s", future1.getSubject().getResult());
+    print("Extracted value: %s ", future1.getSubject().getResult());
     print("Extracted value: %s", future2.getSubject().getResult());
     print("Extracted value: %s", future3.getSubject().getResult());
   }

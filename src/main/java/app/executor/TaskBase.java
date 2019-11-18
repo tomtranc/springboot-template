@@ -1,7 +1,12 @@
 package app.executor;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;
+
+import static app.utils.Helpers.print;
 
 public abstract class TaskBase<V> implements Callable<V> {
 
@@ -10,6 +15,34 @@ public abstract class TaskBase<V> implements Callable<V> {
   private V subject;
   private Timestamp startTs, finishTs;
   private long taskDurationTs;
+
+  private ThreadExecutorService executorService = ThreadExecutorService.getInstance();
+
+  // actual implementation of the call() execution
+  public abstract void executeTask() throws Exception;
+
+  @Override
+  public V call() throws Exception {
+
+    // log start timestamp
+    Long start = System.currentTimeMillis();
+    this.startTs = new Timestamp(start);
+
+    print("Thread %s started taskId '%s' description: %s", Thread.currentThread().getName(), id, description);
+    try {
+      executeTask();
+    } finally {
+      // remove task from currTask map
+      executorService.done(this);
+    }
+    print("Thread %s finished taskId '%s' description: %s", Thread.currentThread().getName(), id, description);
+
+    // log execution duration
+    this.finishTs = new Timestamp(System.currentTimeMillis());
+    this.taskDurationTs = System.currentTimeMillis() - start;
+
+    return subject;
+  }
 
   public TaskBase(V subject) {
     this(subject, null);

@@ -1,11 +1,12 @@
 package app.executor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.*;
+
+import static app.utils.Helpers.print;
 
 public class ThreadExecutorService<V> {
 
@@ -13,7 +14,9 @@ public class ThreadExecutorService<V> {
 
   private int threadPoolSize = 2;
   private ThreadPoolExecutor executor;
-  private List<ThreadFuture> currTasks;
+  private Map<String, ThreadFuture> currTasks;
+
+  private final Logger LOG = LoggerFactory.getLogger(getClass());
 
   public static ThreadExecutorService getInstance() {
     if (executorService == null) {
@@ -21,7 +24,7 @@ public class ThreadExecutorService<V> {
         executorService = new ThreadExecutorService();
         executorService.setExecutor((ThreadPoolExecutor)
                 Executors.newFixedThreadPool(executorService.getThreadPoolSize()));
-        executorService.setCurrTasks(Collections.synchronizedList(new ArrayList<>()));
+        executorService.setCurrTasks(Collections.synchronizedMap(new HashMap<String, ThreadFuture>()));
       }
     }
 
@@ -33,9 +36,27 @@ public class ThreadExecutorService<V> {
 
     // wrap future
     ThreadFuture futureWrapper = new ThreadFuture(task, future);
-    currTasks.add(futureWrapper);
+    currTasks.put(task.getId(), futureWrapper);
 
     return futureWrapper;
+  }
+
+  public void done(TaskBase task) {
+    ThreadFuture future = currTasks.get(task.getId());
+    currTasks.remove(task.getId());
+//    try {
+//      future.getSubject();
+//    } catch (InterruptedException e) {
+//      print("Task %s description \"%s\" has been interrupted", //$NON-NLS-1$
+//              task.getId(), task.getDescription());
+//    } catch (CancellationException e) {
+//      print("Task %s description \"%s\" has been cancelled", //$NON-NLS-1$
+//              task.getId(), task.getDescription());
+//    } catch (ExecutionException e) {
+//      print("Task %s description \"%s\" execution failed", //$NON-NLS-1$
+//              task.getId(), task.getDescription());
+//      e.printStackTrace();
+//    }
   }
 
   public int getThreadPoolSize() {
@@ -50,11 +71,11 @@ public class ThreadExecutorService<V> {
     this.executor = executor;
   }
 
-  public List<ThreadFuture> getCurrTasks() {
+  public Map<String, ThreadFuture> getCurrTasks() {
     return currTasks;
   }
 
-  private void setCurrTasks(List<ThreadFuture> currTasks) {
+  public void setCurrTasks(Map<String, ThreadFuture> currTasks) {
     this.currTasks = currTasks;
   }
 }

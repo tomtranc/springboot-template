@@ -15,21 +15,8 @@ public class TaskSleep extends TaskBase<ResponseObj> {
   }
 
   @Override
-  public ResponseObj call() throws Exception {
-    long start = System.currentTimeMillis();
-
-    print("Thread %s started task: %s", Thread.currentThread().getName(), getSubject().getTaskName());
-    Thread.sleep(2000);
-    print("Thread %s ended task: %s", Thread.currentThread().getName(), getSubject().getTaskName());
-
-    // log time duration
-    setStartTs(new Timestamp(start));
-    setFinishTs(new Timestamp(System.currentTimeMillis()));
-    setTaskDurationTs(System.currentTimeMillis() - start);
-
-    getSubject().setResult(String.format("%s ran for %s ms", getSubject().getTaskName(), getTaskDurationTs()));
-
-    return getSubject();
+  public void executeTask() throws Exception {
+    Thread.sleep(2000);;
   }
 
 }
