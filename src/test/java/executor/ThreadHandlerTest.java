@@ -18,7 +18,7 @@ public class ThreadHandlerTest {
   private ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
   private ObjectMapper mapper = new ObjectMapper();
 
-//  @Test
+  @Test
   public void threadPoolExecutorShortTest() throws InterruptedException, ExecutionException {
     ThreadPoolExecutor executor =
             (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
@@ -69,7 +69,7 @@ public class ThreadHandlerTest {
     assertEquals(2, executorService1.getExecutor().getPoolSize());
     assertEquals(1, executorService1.getExecutor().getQueue().size());
 
-    print("currTasks: %s", mapper.writeValueAsString(executorService1.getCurrTasks()));
+    print("currTasks: %s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(executorService1.getCurrTasks()));
 
     // calling Future#get() is a blocking call, it will block until thread finishes execution
     print("Extracted value: %s ", future1.getSubject().getResult());

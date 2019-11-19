@@ -1,5 +1,7 @@
 package app.executor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -15,6 +17,7 @@ public class ThreadFuture<V> {
     this.future = future;
   }
 
+  @JsonIgnore
   public V getSubject() throws ExecutionException, InterruptedException {
     if (this.subject == null) {
       this.subject = future.get();
