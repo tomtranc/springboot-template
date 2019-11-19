@@ -1,5 +1,14 @@
 # springboot-template
-Template for springboot web applications
+Demo Template for springboot web applications
+
+## How to build and deploy
+```
+# to build
+mvn clean install
+
+# to deploy on tomcat (wrapped inside war)
+java -jar target/springboot-example-0.0.1-SNAPSHOT.war
+```
 
 #### Recommended Project Structure
 ```
