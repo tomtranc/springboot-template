@@ -23,7 +23,10 @@ com
 #### REST
 Execution:
 ```
-GET http://localhost:9090/endpoint1
+GET     http://localhost:9090/
+GET     http://localhost:9090/customers
+POST    http://localhost:9090/customers
+PUT     http://localhost:9090/customers/{id}
 ```
 
 #### SOAP

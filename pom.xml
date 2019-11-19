@@ -56,7 +56,16 @@
       <artifactId>spring-ws-core</artifactId>
     </dependency>
     <!-- END: SOAP dependencies -->
+    <!-- START: lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.10</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- END: lombok -->
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
