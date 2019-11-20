@@ -1,22 +1,28 @@
 package executor;
 
 import app.executor.ResponseObj;
-import app.executor.TaskSleep;
+import app.executor.task.SleepTask;
 import app.executor.ThreadExecutorService;
 import app.executor.ThreadFuture;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 import java.util.concurrent.*;
 
 import static app.utils.Helpers.print;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ThreadHandlerTest {
 
-  private ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
+  private static final ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
   private ObjectMapper mapper = new ObjectMapper();
+
+  @AfterClass
+  public static void afterClass() throws InterruptedException {
+    executorService1.waitAllTasksCompletion();
+  }
 
   @Test
   public void threadPoolExecutorShortTest() throws InterruptedException, ExecutionException {
@@ -44,8 +50,8 @@ public class ThreadHandlerTest {
       return String.format("%s ran", taskName);
     });
 
-    assertEquals(2, executor.getPoolSize());
-    assertEquals(1, executor.getQueue().size());
+    assertThat(executor.getPoolSize()).isEqualTo(2);
+    assertThat(executor.getQueue().size()).isEqualTo(1);
 
     // calling Future#get() is a blocking call, it will block until thread finishes execution
     print("Extracted value: %s", future1.get());
@@ -54,26 +60,27 @@ public class ThreadHandlerTest {
   }
 
   @Test
-  public void threadExecutorServiceTest() throws InterruptedException, ExecutionException, JsonProcessingException {
+  public void threadExecutorServiceTest() throws InterruptedException, ExecutionException, TimeoutException, JsonProcessingException {
     ResponseObj task1 = new ResponseObj("task1");
     ResponseObj task2 = new ResponseObj("task2");
     ResponseObj task3 = new ResponseObj("task3");
 
-    ThreadFuture<ResponseObj> future1 = executorService1.submit(new TaskSleep(task1));
-    ThreadFuture<ResponseObj> future2 = executorService1.submit(new TaskSleep(task2));
-    ThreadFuture<ResponseObj> future3 = executorService1.submit(new TaskSleep(task3));
+    ThreadFuture<ResponseObj> future1 = executorService1.submit(new SleepTask(task1));
+    ThreadFuture<ResponseObj> future2 = executorService1.submit(new SleepTask(task2));
+    ThreadFuture<ResponseObj> future3 = executorService1.submit(new SleepTask(task3));
 
-    print("Executor1 pool: %s queue: %s", executorService1.getExecutor().getPoolSize(),
-            executorService1.getExecutor().getQueue().size());
+//    print("Executor1 pool: %s queue: %s", executorService1.getExecutor().getPoolSize(), executorService1.getExecutor().getQueue().size());
+    assertThat(executorService1.getExecutor().getPoolSize()).isEqualTo(executorService1.getThreadPoolSize());
+    assertThat(executorService1.getExecutor().getQueue().size()).isGreaterThan(0);
 
-    assertEquals(2, executorService1.getExecutor().getPoolSize());
-    assertEquals(1, executorService1.getExecutor().getQueue().size());
+    assertThat(executorService1.getExecutor().getPoolSize()).isEqualTo(executorService1.getThreadPoolSize());
+    assertThat(executorService1.getExecutor().getQueue().size()).isEqualTo(1);
 
-    print("currTasks: %s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(executorService1.getCurrTasks()));
+//    print("currTasks: %s", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(executorService1.getExecutor().getCurrTasks()));
 
     // calling Future#get() is a blocking call, it will block until thread finishes execution
-    print("Extracted value: %s ", future1.getSubject().getResult());
-    print("Extracted value: %s", future2.getSubject().getResult());
-    print("Extracted value: %s", future3.getSubject().getResult());
+    print("Extracted value: %s ", future1.getSubject(5).getResult());
+    print("Extracted value: %s", future2.getSubject(5).getResult());
+    print("Extracted value: %s", future3.getSubject(5).getResult());
   }
 }

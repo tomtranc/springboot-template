@@ -1,14 +1,17 @@
-package app.executor;
+package app.executor.task;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import app.executor.ThreadExecutorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;
 
 import static app.utils.Helpers.print;
 
-public abstract class TaskBase<V> implements Callable<V> {
+public abstract class BaseTask<V> implements Callable<V> {
+
+  private final Logger LOG = LoggerFactory.getLogger(getClass());
 
   private String id;
   private String description;
@@ -28,27 +31,25 @@ public abstract class TaskBase<V> implements Callable<V> {
     Long start = System.currentTimeMillis();
     this.startTs = new Timestamp(start);
 
-    print("Thread %s started taskId '%s' description: %s", Thread.currentThread().getName(), id, description);
+    LOG.debug("Thread %s started taskId \"{}\" description: \"%s\"", Thread.currentThread().getName(), id, description);
     try {
       executeTask();
     } finally {
-      // remove task from currTask map
-      executorService.done(this);
-    }
-    print("Thread %s finished taskId '%s' description: %s", Thread.currentThread().getName(), id, description);
+      // log execution duration
+      this.finishTs = new Timestamp(System.currentTimeMillis());
+      this.taskDurationTs = System.currentTimeMillis() - start;
 
-    // log execution duration
-    this.finishTs = new Timestamp(System.currentTimeMillis());
-    this.taskDurationTs = System.currentTimeMillis() - start;
+      LOG.debug("Thread {} finished taskId {} description: {}", Thread.currentThread().getName(), id, description);
+    }
 
     return subject;
   }
 
-  public TaskBase(V subject) {
+  public BaseTask(V subject) {
     this(subject, null);
   }
 
-  public TaskBase(V subject, String description) {
+  public BaseTask(V subject, String description) {
     setSubject(subject);
     setId(Long.toString(System.nanoTime(), 10));
     setDescription(description);
