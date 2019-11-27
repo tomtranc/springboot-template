@@ -1,12 +1,12 @@
 package app.executor;
 
 import app.executor.task.BaseTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.*;
 
+@Slf4j
 public class ThreadExecutorService<V> {
 
   private static ThreadExecutorService executorService;
@@ -15,8 +15,6 @@ public class ThreadExecutorService<V> {
   private static final int threadPoolSize = 2;
   private static final long taskFutureTimeout = 15L;
   private ThreadPoolExecutorCustom executor;
-
-  private final Logger LOG = LoggerFactory.getLogger(getClass());
 
   public static ThreadExecutorService getInstance() {
     if (executorService == null) {
@@ -53,21 +51,21 @@ public class ThreadExecutorService<V> {
     synchronized (currTasksMap) {
       for (ThreadFuture future : currTasksMap.values()) {
         try {
-          LOG.warn("Awaiting completion of the remaining {} tasks with {} tasks queued. Currently waiting taskId {} desc {}",
+          log.warn("Awaiting completion of the remaining {} tasks with {} tasks queued. Currently waiting taskId {} desc {}",
                   executor.getActiveCount(), executor.getQueue().size(), future.getTask().getId(), future.getTask().getDescription());
           future.getSubject(taskFutureTimeout);
         } catch (InterruptedException e) {
-          LOG.warn("TaskId {} description {} has been interrupted",
+          log.warn("TaskId {} description {} has been interrupted",
                   future.getTask().getId(), future.getTask().getDescription());
         } catch (CancellationException e) {
-          LOG.warn("TaskId {} description {} has been cancelled",
+          log.warn("TaskId {} description {} has been cancelled",
                   future.getTask().getId(), future.getTask().getDescription());
         } catch (TimeoutException e) {
-          LOG.error(String.format("TaskId %s description '%s' timed out after %d seconds. Cancelling task to prevent blocking.",
+          log.error(String.format("TaskId %s description '%s' timed out after %d seconds. Cancelling task to prevent blocking.",
                   future.getTask().getId(), future.getTask().getDescription(), taskFutureTimeout), e);
           future.getFuture().cancel(true);
         } catch (ExecutionException e) {
-          LOG.error(String.format("TaskId %s description '%s' has thrown an exception during execution",
+          log.error(String.format("TaskId %s description '%s' has thrown an exception during execution",
                   future.getTask().getId(), future.getTask().getDescription()), e);
         }
       }
@@ -84,7 +82,7 @@ public class ThreadExecutorService<V> {
 
     while ((executor.getActiveCount() > 0 || executor.getQueue().size() > 0) &&
             (System.currentTimeMillis() - startTs < timeoutMs)) {
-      LOG.info("Waiting asynchronous tasks to complete - currently handling {} tasks with {} tasks queued.",
+      log.info("Waiting asynchronous tasks to complete - currently handling {} tasks with {} tasks queued.",
               executor.getActiveCount(), executor.getQueue().size());
       Thread.sleep(3000);
     }

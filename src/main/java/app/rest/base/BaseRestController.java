@@ -1,8 +1,6 @@
 package app.rest.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -11,7 +9,6 @@ import org.springframework.validation.ObjectError;
 import java.util.List;
 
 public abstract class BaseRestController {
-  protected final Logger LOG = LoggerFactory.getLogger(getClass());
   private static final String EMPTY_ERROR_MESSAGE = "";
 
   @Autowired

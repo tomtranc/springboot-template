@@ -1,15 +1,13 @@
 package app.filter.custom;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@Slf4j
 public class SampleFilter implements Filter {
-
-  private static final Logger LOG = LoggerFactory.getLogger(SampleFilter.class);
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,10 +19,10 @@ public class SampleFilter implements Filter {
           throws IOException, ServletException {
 
     HttpServletRequest req = (HttpServletRequest) servletRequest;
-    LOG.debug("Filter {} was invoked for req : {}", this.getClass().getCanonicalName(), req.getRequestURI());
+    log.debug("Filter {} was invoked for req : {}", this.getClass().getCanonicalName(), req.getRequestURI());
 
     filterChain.doFilter(servletRequest, servletResponse);
-    LOG.debug("Filter {} after chain for req : {}", this.getClass().getCanonicalName(), req.getRequestURI());
+    log.debug("Filter {} after chain for req : {}", this.getClass().getCanonicalName(), req.getRequestURI());
   }
 
   @Override

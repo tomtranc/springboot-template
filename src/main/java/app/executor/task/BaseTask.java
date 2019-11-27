@@ -1,17 +1,13 @@
 package app.executor.task;
 
 import app.executor.ThreadExecutorService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;
 
-import static app.utils.Helpers.print;
-
+@Slf4j
 public abstract class BaseTask<V> implements Callable<V> {
-
-  private final Logger LOG = LoggerFactory.getLogger(getClass());
 
   private String id;
   private String description;
@@ -31,7 +27,7 @@ public abstract class BaseTask<V> implements Callable<V> {
     Long start = System.currentTimeMillis();
     this.startTs = new Timestamp(start);
 
-    LOG.debug("Thread %s started taskId \"{}\" description: \"%s\"", Thread.currentThread().getName(), id, description);
+    log.debug("Thread %s started taskId \"{}\" description: \"%s\"", Thread.currentThread().getName(), id, description);
     try {
       executeTask();
     } finally {
@@ -39,7 +35,7 @@ public abstract class BaseTask<V> implements Callable<V> {
       this.finishTs = new Timestamp(System.currentTimeMillis());
       this.taskDurationTs = System.currentTimeMillis() - start;
 
-      LOG.debug("Thread {} finished taskId {} description: {}", Thread.currentThread().getName(), id, description);
+      log.debug("Thread {} finished taskId {} description: {}", Thread.currentThread().getName(), id, description);
     }
 
     return subject;
