@@ -6,8 +6,8 @@ import app.executor.ThreadExecutorService;
 import app.executor.ThreadFuture;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.*;
 
@@ -19,7 +19,7 @@ public class ThreadHandlerTest {
   private static final ThreadExecutorService executorService1 = ThreadExecutorService.getInstance();
   private ObjectMapper mapper = new ObjectMapper();
 
-  @AfterClass
+  @AfterAll
   public static void afterClass() throws InterruptedException {
     executorService1.waitAllTasksCompletion();
   }

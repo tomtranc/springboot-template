@@ -46,8 +46,8 @@ GET http://localhost:9090/ws/scorecard.wsdl
 ```
 Execution request:
 ```
-curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/countriesRequest.xml http://localhost:9090/ws | xmllint --format -
-curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/test/resources/soap/scorecardRequest.xml http://localhost:9090/ws | xmllint --format -
+curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/resources/soap/countriesRequest.xml http://localhost:9090/ws | xmllint --format -
+curl -H "content-type: text/xml" -d @/Users/tomtran/myRepos/springboot-template/src/test/resources/soap/scorecardRequest.xml http://localhost:9090/ws | xmllint --format -
 ```
 Execution response for **countriesRequest**:
 ```xml
